@@ -9,6 +9,7 @@
     "build": "set NODE_ENV=1&& webpack --progress --color"
   },
   "dependencies": {
+    "stats.js": "https://github.com/mrdoob/stats.js",
     "three": "^0.100.0"
   },
   "devDependencies": {

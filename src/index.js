@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import 'three/examples/js/loaders/GLTFLoader.js'
+import Stats from 'stats.js'
 
 var camera, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper
 var mixers = []
