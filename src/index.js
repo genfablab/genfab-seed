@@ -96,18 +96,20 @@ function init () {
   var loader = new THREE.GLTFLoader()
 
   const models = [
-    'models/gltf/Flamingo.glb',
-    'models/gltf/Parrot.glb',
-    'models/gltf/Stork.glb',
+    { file: 'models/gltf/Horse.glb', scale: 0.35, y: -33 },
+    { file: 'models/gltf/Flamingo.glb', scale: 0.35, y: 15 },
+    { file: 'models/gltf/Parrot.glb', scale: 0.5, y: 10 },
+    { file: 'models/gltf/Stork.glb', scale: 0.35, y: 10 },
   ]
+  const model = models[Math.floor(Math.random() * 4)]
 
-  loader.load( models[2], function ( gltf ) {
+  loader.load( model.file, function ( gltf ) {
 
     var mesh = gltf.scene.children[ 0 ]
 
-    var s = 0.35
+    var s = model.scale
     mesh.scale.set( s, s, s )
-    mesh.position.y = 15
+    mesh.position.y = model.y
     mesh.rotation.y = -1
 
     mesh.castShadow = true
