@@ -1,8 +1,9 @@
 import * as THREE from 'three'
-import 'three/examples/js/loaders/GLTFLoader.js'
+import 'three/examples/js/loaders/GLTFLoader.js' // -> THREE.GLTFLoader
+import 'three/examples/js/controls/OrbitControls.js' // -> THREE.OrbitControls
 import Stats from 'stats.js'
 
-var camera, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper
+let camera, controls, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper
 var mixers = []
 var stats
 
@@ -136,6 +137,23 @@ function init () {
 
   renderer.shadowMap.enabled = true
 
+  // controls
+  controls = new THREE.OrbitControls( camera, renderer.domElement )
+
+  // call this only in static scenes (i.e., if there is no animation loop)
+  // controls.addEventListener( 'change', render )
+
+  // damping & auto-rotation require an animation loop
+  controls.enableDamping = true
+  controls.dampingFactor = 0.25
+  controls.autoRotate = true
+  controls.autoRotateSpeed = 1.0 // 2.0 -> 30 seconds per round when fps is 60
+
+  controls.screenSpacePanning = false
+  controls.minDistance = 100
+  controls.maxDistance = 500
+  controls.maxPolarAngle = Math.PI / 2
+
   // STATS
 
   stats = new Stats()
@@ -173,6 +191,10 @@ function onKeyDown ( event ) {
     dirLightHeper.visible = !dirLightHeper.visible
     break
 
+  case 82: // r
+    controls.autoRotate = !controls.autoRotate
+    break
+
   }
 
 }
@@ -182,6 +204,10 @@ function onKeyDown ( event ) {
 function animate () {
 
   requestAnimationFrame( animate )
+
+  // only required if controls.enableDamping = true
+  // or if controls.autoRotate = true
+  controls.update()
 
   render()
   stats.update()
