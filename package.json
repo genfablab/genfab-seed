@@ -1,0 +1,33 @@
+{
+  "name": "genfab-seed",
+  "version": "1.0.0",
+  "description": "a basic threejs project set up to use webpack & babel to ease development of new generative forms",
+  "author": "michael philetus weller <philetus@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "set NODE_ENV=0&& webpack-dev-server --progress --color --open",
+    "build": "set NODE_ENV=1&& webpack --progress --color"
+  },
+  "dependencies": {
+    "three": "^0.100.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
+}
