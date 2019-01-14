@@ -2,9 +2,9 @@
 
 a basic [threejs](https://threejs.org/) project set up to use [webpack](https://webpack.js.org/) & [babel](https://babeljs.io/) to ease development of new generative forms
 
-## to run
+## quickstart
 
-install [yarn](https://yarnpkg.com/)
+* install [yarn](https://yarnpkg.com/)
 
 * to install dependencies (including threejs)
 ```
@@ -20,4 +20,3 @@ $ yarn dev
 ```
 $ yarn build
 ```
-(then copy dist folder to your production server)
