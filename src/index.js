@@ -3,20 +3,28 @@ import 'three/examples/js/loaders/GLTFLoader.js' // -> THREE.GLTFLoader
 import 'three/examples/js/controls/OrbitControls.js' // -> THREE.OrbitControls
 import Stats from 'stats.js'
 
-let camera, controls, scene, renderer, dirLight, dirLightHeper, hemiLight, hemiLightHelper
-var mixers = []
-var stats
-
-var clock = new THREE.Clock()
+let camera
+const clock = new THREE.Clock()
+let controls
+let dirLight
+let dirLightHeper
+let hemiLight
+let hemiLightHelper
+const mixers = []
+let renderer
+let scene
+let stats
 
 init()
 animate()
 
 function init () {
 
-  var container = document.getElementById( 'container' )
+  const container = document.getElementById( 'container' )
 
-  camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 5000 )
+  camera = new THREE.PerspectiveCamera(
+    30, window.innerWidth / window.innerHeight, 1, 5000
+  )
   camera.position.set( 0, 0, 250 )
 
   scene = new THREE.Scene()
@@ -34,8 +42,6 @@ function init () {
   hemiLightHelper = new THREE.HemisphereLightHelper( hemiLight, 10 )
   scene.add( hemiLightHelper )
 
-  //
-
   dirLight = new THREE.DirectionalLight( 0xffffff, 1 )
   dirLight.color.setHSL( 0.1, 1, 0.95 )
   dirLight.position.set( -1, 1.75, 1 )
@@ -47,7 +53,7 @@ function init () {
   dirLight.shadow.mapSize.width = 2048
   dirLight.shadow.mapSize.height = 2048
 
-  var d = 50
+  const d = 50
 
   dirLight.shadow.camera.left = -d
   dirLight.shadow.camera.right = d
@@ -62,11 +68,14 @@ function init () {
 
   // GROUND
 
-  var groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 )
-  var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } )
+  const groundGeo = new THREE.PlaneBufferGeometry( 10000, 10000 )
+  const groundMat = new THREE.MeshPhongMaterial( {
+    color: 0xffffff,
+    specular: 0x050505,
+  } )
   groundMat.color.setHSL( 0.095, 1, 0.75 )
 
-  var ground = new THREE.Mesh( groundGeo, groundMat )
+  const ground = new THREE.Mesh( groundGeo, groundMat )
   ground.rotation.x = -Math.PI / 2
   ground.position.y = -33
   scene.add( ground )
@@ -75,9 +84,10 @@ function init () {
 
   // SKYDOME
 
-  var vertexShader = document.getElementById( 'vertexShader' ).textContent
-  var fragmentShader = document.getElementById( 'fragmentShader' ).textContent
-  var uniforms = {
+  const vertexShader = document.getElementById( 'vertexShader' ).textContent
+  const fragmentShader = document.getElementById( 'fragmentShader' )
+    .textContent
+  const uniforms = {
     topColor: { value: new THREE.Color( 0x0077ff ) },
     bottomColor: { value: new THREE.Color( 0xffffff ) },
     offset: { value: 33 },
@@ -87,15 +97,20 @@ function init () {
 
   scene.fog.color.copy( uniforms.bottomColor.value )
 
-  var skyGeo = new THREE.SphereBufferGeometry( 4000, 32, 15 )
-  var skyMat = new THREE.ShaderMaterial( { vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide } )
+  const skyGeo = new THREE.SphereBufferGeometry( 4000, 32, 15 )
+  const skyMat = new THREE.ShaderMaterial( {
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
+    uniforms: uniforms,
+    side: THREE.BackSide,
+  } )
 
-  var sky = new THREE.Mesh( skyGeo, skyMat )
+  const sky = new THREE.Mesh( skyGeo, skyMat )
   scene.add( sky )
 
   // MODEL
 
-  var loader = new THREE.GLTFLoader()
+  const loader = new THREE.GLTFLoader()
 
   const models = [
     { file: 'models/gltf/Horse.glb', scale: 0.35, y: -33 },
@@ -103,13 +118,13 @@ function init () {
     { file: 'models/gltf/Parrot.glb', scale: 0.5, y: 10 },
     { file: 'models/gltf/Stork.glb', scale: 0.35, y: 10 },
   ]
-  const model = models[Math.floor(Math.random() * 4)]
+  const model = models[ Math.floor( Math.random() * 4 ) ]
 
   loader.load( model.file, function ( gltf ) {
 
-    var mesh = gltf.scene.children[ 0 ]
+    const mesh = gltf.scene.children[ 0 ]
 
-    var s = model.scale
+    const s = model.scale
     mesh.scale.set( s, s, s )
     mesh.position.y = model.y
     mesh.rotation.y = -1
@@ -119,7 +134,7 @@ function init () {
 
     scene.add( mesh )
 
-    var mixer = new THREE.AnimationMixer( mesh )
+    const mixer = new THREE.AnimationMixer( mesh )
     mixer.clipAction( gltf.animations[ 0 ] ).setDuration( 1 ).play()
     mixers.push( mixer )
 
@@ -159,7 +174,7 @@ function init () {
   stats = new Stats()
   container.appendChild( stats.dom )
 
-  //
+  // event listeners
 
   window.addEventListener( 'resize', onWindowResize, false )
   document.addEventListener( 'keydown', onKeyDown, false )
@@ -199,7 +214,7 @@ function onKeyDown ( event ) {
 
 }
 
-//
+// rendering loop
 
 function animate () {
 
@@ -216,14 +231,11 @@ function animate () {
 
 function render () {
 
-  var delta = clock.getDelta()
+  const delta = clock.getDelta()
 
-  for ( var i = 0; i < mixers.length; i++ ) {
-
+  for ( let i = 0; i < mixers.length; i++ ) {
     mixers[ i ].update( delta )
-
   }
 
   renderer.render( scene, camera )
-
 }
